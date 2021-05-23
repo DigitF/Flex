@@ -1,0 +1,57 @@
+{
+    "url" : "https://1337x.to",
+    "search_init" : "https://1337x.to/search/{search}/1/",
+    "search_url" : "https://1337x.to/search/{search}/{page}/",
+    "magnets" : "True",
+    "paged" : "True",
+    "start": "1",
+    "steps": "1",
+    "charset" : "utf-8",
+    "searchSeparator": "+",
+    "items" : {
+        "torrent_urls" : {
+            "selector" : "a[href^=\"/torrent/\"]::attr(href)",
+            "filters" : ["a", "start", "https://1337x.to"]
+        },
+        "titles" : {
+            "selector" : "a[href^=\"/torrent/\"]::text"
+        },
+        "seeds" : {
+            "selector" : "td[class^=\"coll-2\"]::text"
+        },
+        "leeches" : {
+            "selector" : "td[class^=\"coll-3\"]::text"
+        }, 
+        "sizes" : {
+            "selector" : "td[class^=\"coll-4\"]::text"
+        },
+        "magnets" : {
+            "selector" : "a[href^=\"magnet:\"]::attr(href)"
+        },
+        "last_page_search" : {
+            "selector" : "a:contains(\"Last\")::attr(href)",
+            "filters" : ["s", "/", "3"]
+        }
+    },
+    "flow" : {
+        "search_init" : {
+            "extract" : {
+                "result" : ["last_page_search"]
+            },
+            "create_search_urls" : {
+                "params" : ["search_url", "last_page_search"],
+                "result" : ["pages_urls"]
+            }
+        },
+        "pages_urls" : {
+            "extract" : {
+                "result" : ["titles", "torrent_urls", "seeds", "leeches", "sizes"]
+            }
+        },
+        "torrent_urls" : {
+            "extract" : {
+                "result" : ["magnets"]
+            }
+        }
+    }
+}

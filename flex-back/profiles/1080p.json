@@ -1,0 +1,19 @@
+{
+    "title" : {
+        "space" : [".","-"," "],
+        "remove" : ["-"],
+        "weight" : "3"
+    },
+    "quality" : {
+        "tags" : ["1080p"],
+        "weight" : "2" 
+    }, 
+    "size" : {
+        "max" : "5",
+        "weight" : "1"
+    },
+    "lang" : {
+        "tags" : ["english"],
+        "weight" : "1"
+    }
+}

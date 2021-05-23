@@ -1,0 +1,140 @@
+CREATE TABLE movies (
+    movie_id SERIAL PRIMARY KEY,
+    tmdb_id INTEGER NOT NULL,
+    original_title VARCHAR NOT NULL,
+    overview VARCHAR NOT NULL,
+    original_lang VARCHAR NOT NULL,
+    first_air VARCHAR NOT NULL,
+    media_type VARCHAR NOT NULL,
+    poster_path VARCHAR NOT NULL
+)
+
+CREATE TABLE genres (
+    genre_id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    tmdb_id INTEGER NOT NULL
+)
+
+CREATE TABLE movie_genre (
+    movie_id INTEGER NOT NULL,
+    genre_id INTEGER NOT NULL,
+    PRIMARY KEY (movie_id, genre_id),
+    FOREIGN KEY (movie_id)
+        REFERENCES movies (movie_id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (genre_id)
+        REFERENCES genres (genre_id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+CREATE TABLE peoples (
+    people_id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    birth_date VARCHAR NOT NULL,
+    bio VARCHAR NOT NULL,
+    death_date VARCHAR NOT NULL,
+    picture_path VARCHAR NOT NULL
+)
+
+CREATE TABLE movie_appearance (
+    people_id INTEGER NOT NULL,
+    movie_id INTEGER NOT NULL,
+    department VARCHAR NOT NULL,
+    character VARCHAR,
+    PRIMARY KEY (people_id, movie_id),
+    FOREIGN KEY (people_id)
+        REFERENCES peoples (people_id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (movie_id)
+        REFERENCES movies (movie_id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+CREATE TABLE series (
+    serie_id SERIAL PRIMARY KEY,
+    tmdb_id INTEGER NOT NULL,
+    original_title VARCHAR NOT NULL,
+    overview VARCHAR NOT NULL,
+    original_lang VARCHAR NOT NULL,
+    first_air VARCHAR NOT NULL,
+    media_type VARCHAR NOT NULL,
+    poster_path VARCHAR
+)
+
+CREATE TABLE serie_genre (
+    serie_id INTEGER NOT NULL,
+    genre_id INTEGER NOT NULL,
+    PRIMARY KEY (serie_id, genre_id),
+    FOREIGN KEY (serie_id)
+        REFERENCES series (serie_id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (genre_id)
+        REFERENCES genres (genre_id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+CREATE TABLE episode_appearance (
+    people_id INTEGER NOT NULL,
+    episode_id INTEGER NOT NULL,
+    department VARCHAR NOT NULL,
+    character VARCHAR,
+    PRIMARY KEY (people_id, episode_id),
+    FOREIGN KEY (people_id)
+        REFERENCES peoples (people_id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (episode_id)
+        REFERENCES series (episode_id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+CREATE TABLE seasons (
+    season_id SERIAL PRIMARY KEY,
+    serie_id INTEGER NOT NULL,
+    order INTEGER NOT NULL,
+    overview VARCHAR NOT NULL,
+    poster_path VARCHAR,
+    FOREIGN KEY (serie_id)
+        REFERENCES series (serie_id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+CREATE TABLE episodes (
+    episode_id SERIAL PRIMARY KEY,
+    serie_id INTEGER NOT NULL,
+    season_id INTEGER NOT NULL,
+    name VARCHAR NOT NULL,
+    order INTEGER NOT NULL,
+    release_date VARCHAR NOT NULL,
+    still_path VARCHAR,
+    overview VARCHAR NOT NULL,
+    FOREIGN KEY (serie_id)
+        REFERENCES series (serie_id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY (season_id)
+        REFERENCES season (season_id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+CREATE TABLE libraries (
+    library_id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    media_type VARCHAR NOT NULL
+)
+
+CREATE TABLE paths (
+    path_id SERIAL PRIMARY KEY,
+    path VARCHAR NOT NULL
+)
+
+CREATE TABLE library_path (
+    lidrary_id INTEGER NOT NULL,
+    path_id INTEGER NOT NULL,
+    FOREIGN KEY (library_id)
+        REFERENCES libraries (library_id)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (path_id)
+        REFERENCES paths (path_id)
+        ON UPDATE CASCADE ON DELETE CASCADE
+)
+
+CREATE TABLE 

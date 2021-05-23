@@ -1,0 +1,63 @@
+{
+    "baseUrl": "https://rutracker.net/forum/",
+    "search_url": "https://rutracker.net/forum/tracker.php?search_id=&start={page}&nm={search}",
+    "search_init": "https://rutracker.net/forum/tracker.php?search_id=&start=0&nm={search}",
+    "magnets" : "True",
+    "paged" : "True",
+    "start": "0",
+    "steps": "50",
+    "charset" : "cp1251",
+    "searchSeparator": "%20",
+    "login": {
+        "usernameString": "login_username",
+        "username": "pydehon",
+        "passwordString": "login_password",
+        "password": "zVXvT",
+        "otherString": "login",
+        "other": "%E2%F5%EE%E4",
+        "loginUrl": "https://rutracker.net/forum/login.php"
+    },
+    "items" :{
+        "torrent_urls" : {
+            "selector" : "a[class^=\"med tLink ts-text hl-tags bold\"]::attr(href)",
+            "filters" : ["a", "start", "https://rutracker.net/forum/"]
+        },
+        "titles" : {
+            "selector" : "a[class^=\"med tLink ts-text hl-tags bold\"]::text"
+        },
+        "seeds" : {
+            "selector" : "b[class^=\"seedmed\"]::text"
+        },
+        "leeches" : {
+            "selector" : "td[class^=\"row4 leechmed bold\"]::text"
+        }, 
+        "sizes" : {
+            "selector" : "a[class^=\"small tr-dl dl-stub\"]::text",
+            "filters" : ["r", " ↓", ""]
+        },
+        "magnets" : {
+            "selector" : "a[href^=\"magnet:?xt=\"]::attr(href)"
+        },
+        "last_page_search" : {
+            "selector" : "a[href^=\"https://rutracker.net/forum/tracker.php?search_id=\"]::attr(href)"
+        }
+    },
+    "flow" : {
+        "search_init" : {
+            "walk" : {
+                "params" : ["search_url", "a:contains(\"След.\")::attr(href)"],
+                "result" : ["pages_urls"]
+            }
+        },
+        "pages_urls" : {
+            "extract" : {
+                "result" : ["titles", "torrent_urls", "seeds", "leeches", "sizes"]
+            }
+        },
+        "torrent_urls" : {
+            "extract" : {
+                "result" : ["magnets"]
+            }
+        }
+    }
+}
