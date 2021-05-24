@@ -1,8 +1,11 @@
 import json
 from models.MediaType import MediaType
 from flask import Flask, request
+from flask_cors import CORS
 from models.TmdbAPI import TmdbAPI
+
 app = Flask(__name__)
+CORS(app)
 app.debug = True
 
 
@@ -13,7 +16,7 @@ def index():
     result = tapi.searchMedia(data)
     prefetch = []
     for media in result :
-        prefetch.append({'Title' : media.originalTitle, 'Overview' : media.overview, 'Poster' : media.posterUrl, 'Movie' : media.mediaType == MediaType.MOVIE})
+        prefetch.append({'Title' : media.originalTitle, 'Overview' : media.overview, 'Poster' : media.posterUrl, 'FirstAir' : media.firstAir})
     return json.dumps(prefetch)
 
 if __name__ == "__main__":
