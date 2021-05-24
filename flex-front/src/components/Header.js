@@ -4,10 +4,11 @@ import "./css/header.css"
 class Header extends React.Component {
 
     constructor(props) {
+        console.log("header : "+props.searchValue)
         super(props);
         this.state = {
             parentState: props.state,
-            value: "",
+            value: props.searchValue,
             cards: []
         };
         this.handleChange = this.handleChange.bind(this);
@@ -15,6 +16,7 @@ class Header extends React.Component {
         this.search = this.search.bind(this);
         this.showSuggetions = this.showSuggetions.bind(this);
         this.inputSearch = this.inputSearch.bind(this);
+        this.card = this.card.bind(this);
     }
 
     handleChange(e) {
@@ -44,30 +46,31 @@ class Header extends React.Component {
         )
     }
 
-    search(){
-        if (this.state.value) {
+    search(props){
+        console.log("rendering hearder serach : "+props.value)
+        if (props.value || props.value != "") {
             return( <this.showSuggetions /> )
         } else {
             return( <this.initSearch /> )
         }
     }
 
-    card(props){
+    card(params){
         return (
-            <div className="card">
-                <img className="card-left" src={"https://image.tmdb.org/t/p/w200" + props.json.Poster} />
+            <div className="card" onClick={this.props.clickHandler}>
+                <img className="card-left" src={"https://image.tmdb.org/t/p/w200" + params.json.Poster} />
                 <div className="card-right">
                     <div className="card-head">
                         <div className="card-title">
-                            <h3>{props.json.Title}</h3>
+                            <h3>{params.json.Title}</h3>
                         </div>
                         <div className="card-buttons">
-                            <i class="gg-search"></i> 
-                            <i class="gg-add"></i>
+                            <i className="gg-search"></i> 
+                            <i className="gg-add"></i>
                         </div>                     
                     </div>
                     <div className="card-overview">
-                        <p>{props.json.Overview}</p>
+                        <p>{params.json.Overview}</p>
                     </div>
                 </div>
             </div>
@@ -90,8 +93,9 @@ class Header extends React.Component {
     }
 
     render() {
+        console.log("rendering header :" + this.state.value)
         return(
-            <this.search />
+            <this.search value={this.state.value}/>
         )
     };
 }

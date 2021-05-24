@@ -6,12 +6,12 @@ class Movie extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            title = "",
-            genre = "",
-            overview = "",
-            poster = "",
-            firstAir = "",
-            torrents = []
+            title : "",
+            genre : "",
+            overview : "",
+            poster : "",
+            firstAir : "",
+            torrents : []
         }
     }
 
@@ -24,14 +24,16 @@ class Movie extends React.Component {
                     </div>
                     <div className="title-container">
                         <h1 className="title">{this.state.title}</h1>
+                        <div className="buttons-container">
+                            <i className="gg-search"></i> 
+                            <i className="gg-add"></i>
+                        </div>
                     </div>
-                    <div className="buttons-container">
-                        <i class="gg-search"></i> 
-                        <i class="gg-add"></i>
-                    </div>
-                    
+                    <div className="overview-container">{this.state.overview}</div>
                 </div>
             </div>
         )
     }
 }
+
+export default Movie
